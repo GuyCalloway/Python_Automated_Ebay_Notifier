@@ -4,9 +4,6 @@ from bs4 import BeautifulSoup
 import smtplib
 import time
 
-import requests
-import re
-from bs4 import BeautifulSoup
 
 headers = {
     "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36"}
@@ -60,8 +57,6 @@ def check_URLS(urls, hour_alert, max_price, send_mail):
             time_left = soup1.find(id="vi-cdown_timeLeft").get_text().strip()
             title = soup1.find(id="itemTitle").get_text()
             feedback = soup1.find(id="si-fb").get_text()
-            print(price_text, time_left, feedback)
-        # print(time_left, price, title, feedback)
 
         if time_left.find('day') == -1:
             hour_index = time_left.find('h')

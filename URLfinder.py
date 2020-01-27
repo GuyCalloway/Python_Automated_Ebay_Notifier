@@ -18,16 +18,3 @@ for val in arr:
     item = soup.find(id="srp-river-results-listing"+str(val))
     x = item.a
     url_array.append(x.get('href'))
-
-for x, url in enumerate(url_array):
-    print(x+1)
-    print(url)
-
-# for link in soup.find_all('a'):
-#     if "https://www.ebay.co.uk/itm/" in link.get('href'):
-#         url_array.append(link.get('href'))
-
-# # tags = soup.find(id='srp-river-results-listing2',
-# #  href=re.compile(r'[/]([a-z]|[A-Z])\w+')).attrs['href']
-# for i, x in enumerate(url_array):
-#     print(i+1)
