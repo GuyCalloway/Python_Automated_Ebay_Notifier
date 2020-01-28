@@ -13,7 +13,7 @@ URL = "https://www.ebay.co.uk/sch/i.html?_from=R40&_trksid=p2380057.m570.l1313.T
 page = requests.get(URL, headers=headers)
 soup = BeautifulSoup(page.content, 'html.parser')
 
-arr = list(range(11))[1:11]
+arr = list(range(24))[1:24]
 
 url_array = []
 
@@ -23,19 +23,19 @@ for val in arr:
     url_array.append(x.get('href'))
 
 
-def send_mail(url, hours_left, feedback):
+def send_mail(url, hours_left):
     server = smtplib.SMTP('smtp.gmail.com', 587)
     server.ehlo()
     server.starttls()
     server.ehlo()
-    server.login('g.fr.calloway@gmail.com', 'xqbrawjwklpcbzfh')
+    server.login('account@XYZ.com', 'XXauthenticationCodeXXX')
     subject = f'This has {hours_left} hours left'
-    body = f'check link: {url}!\nfeedback: {feedback}'
+    body = f'check link: {url}!'
     msg = f"{subject}\n\n{body}"
-
+    print(msg)
     server.sendmail(
-        "g.fr.calloway@gmail.com",
-        "g.fr.calloway@gmail.com",
+        "account@XYZ.com",
+        "destination@XYZ.com",
         msg
     )
     print("email sent")
@@ -48,7 +48,6 @@ headers = {
 
 def check_URLS(urls, hour_alert, max_price, send_mail):
     for url in urls:
-        print(url)
         page1 = requests.get(url, headers=headers)
         soup1 = BeautifulSoup(page1.content, 'html.parser')
         price = soup1.find(id="prcIsum_bidPrice")
@@ -57,15 +56,15 @@ def check_URLS(urls, hour_alert, max_price, send_mail):
             time_left = soup1.find(id="vi-cdown_timeLeft").get_text().strip()
             title = soup1.find(id="itemTitle").get_text()
             feedback = soup1.find(id="si-fb").get_text()
-
-        if time_left.find('day') == -1:
-            hour_index = time_left.find('h')
-            if hour_index < 3:
-                hours_left = int(time_left[0:hour_index])
-                if hours_left <= hour_alert and int(price_text[-5:-3]) < max_price:
-                    send_mail(url, hours_left)
+            if time_left.find('day') == -1:
+                hour_index = time_left.find('h')
+                if hour_index < 3:
+                    hours_left = int(time_left[0:hour_index])
+                    if hours_left <= hour_alert and int(price_text[-5:-3]) < max_price:
+                        print("mail_sent")
+                        send_mail(url, hours_left)
 
 
 while(True):
-    check_URLS(url_array, 4, 50, send_mail)
+    check_URLS(url_array, 9, 56, send_mail)
     time.sleep(3600)
